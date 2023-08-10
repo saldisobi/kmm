@@ -90,5 +90,7 @@ android {
         implementation(libs.voyager.navigator)
         //WorkManager
         implementation(libs.work.runtime.ktx)
+        implementation(libs.accompanist.pager)
+        implementation(libs.accompanist.pager.indicator)
     }
 }

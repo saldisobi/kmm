@@ -1,30 +1,27 @@
 package com.github.jetbrains.rssreader.androidApp.composeui
 
-import android.content.Intent
-import android.net.Uri
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.github.jetbrains.rssreader.androidApp.home.TabItem
+import com.github.jetbrains.rssreader.androidApp.home.Tabs
+import com.github.jetbrains.rssreader.androidApp.home.TabsContent
 import com.github.jetbrains.rssreader.app.FeedAction
 import com.github.jetbrains.rssreader.app.FeedStore
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class MainScreen : Screen, KoinComponent {
-    @OptIn(ExperimentalMaterialApi::class)
+    @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
         val store: FeedStore by inject()
@@ -35,38 +32,44 @@ class MainScreen : Screen, KoinComponent {
             refreshing = state.progress,
             onRefresh = { store.dispatch(FeedAction.Refresh(true)) }
         )
-
+        val tabs = listOf(
+            TabItem.Music(refreshState, store, context, navigator, state),
+            TabItem.Movies,
+            TabItem.Books
+        )
+        val pagerState = androidx.compose.foundation.pager.rememberPagerState()
         LaunchedEffect(Unit) {
             store.dispatch(FeedAction.Refresh(false))
         }
-        Box(modifier = Modifier.pullRefresh(refreshState)) {
-            MainFeed(
-                store = store,
-                onPostClick = { post ->
-                    post.link?.let { url ->
-                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-                    }
-                },
-                onEditClick = {
-                    navigator.push(FeedListScreen())
-                }
-            )
-            PullRefreshIndicator(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .statusBarsPadding(),
-                refreshing = state.progress,
-                state = refreshState,
-                scale = true //https://github.com/google/accompanist/issues/572
-            )
+
+        Column {
+            Tabs(tabs = tabs, pagerState = pagerState)
+            TabsContent(tabs = tabs, pagerState = pagerState)
+        }
+    }
+
+
+    class FeedListScreen : Screen, KoinComponent {
+        @Composable
+        override fun Content() {
+            val store: FeedStore by inject()
+            FeedList(store = store)
         }
     }
 }
-
-class FeedListScreen : Screen, KoinComponent {
+/*class TabHomeScreen : Screen, KoinComponent {
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     override fun Content() {
-        val store: FeedStore by inject()
-        FeedList(store = store)
+
+        val tabs = listOf(TabItem.Music, TabItem.Movies, TabItem.Books)
+        val pagerState = androidx.compose.foundation.pager.rememberPagerState()
+        Column {
+            Tabs(tabs = tabs, pagerState = pagerState)
+            TabsContent(tabs = tabs, pagerState = pagerState)
+        }
     }
-}
+}*/
+
+
+

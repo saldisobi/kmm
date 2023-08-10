@@ -47,11 +47,11 @@ private object PreviewData {
     )
     val feed = Feed(
         title = "Kotlin Blog",
-        link = "blog.jetbrains.com/kotlin/",
-        desc = "blog.jetbrains.com/kotlin/",
+        link = "https://www.nirankari.org/feed/",
+        desc = "https://www.nirankari.org/feed/",
         imageUrl = null,
         posts = listOf(post),
-        sourceUrl = "https://blog.jetbrains.com/feed/",
+        sourceUrl = "https://www.nirankari.org/feed/",
         isDefault = true
     )
 }
