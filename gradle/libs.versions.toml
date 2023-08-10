@@ -1,4 +1,5 @@
 [versions]
+androidx-material3 = "1.1.1"
 plugin-android = "8.1.0"
 plugin-kotlin = "1.8.22"
 plugin-gver = "0.47.0"
@@ -18,8 +19,12 @@ coil = "2.4.0"
 activity-compose = "1.7.2"
 work-runtime-ktx = "2.8.1"
 desugar-jdk-libs = "2.0.3"
+compose-navigation = "2.5.3"
+compose-ui-graphics = "ui-graphics"
+
 
 [libraries]
+androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidx-material3" }
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "plugin-android" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "plugin-kotlin" }
 plugin-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "plugin-kotlin" }
@@ -47,6 +52,9 @@ activity-compose = { module = "androidx.activity:activity-compose", version.ref 
 accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
 work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
+androidx-ui-graphics = { module = "aandroidx.compose.ui:ui-graphics", version.ref = "compose-ui-graphics" }
 
 [bundles]
-plugins = ["plugin-android", "plugin-kotlin",  "plugin-kotlin-serialization", "plugin-gver"]
+plugins = ["plugin-android", "plugin-kotlin", "plugin-kotlin-serialization", "plugin-gver"]
+

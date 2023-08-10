@@ -88,7 +88,9 @@ android {
         implementation(libs.koin.android)
         //Navigation
         implementation(libs.voyager.navigator)
+        implementation(libs.navigation.compose)
         //WorkManager
         implementation(libs.work.runtime.ktx)
+        implementation(libs.androidx.material3)
     }
 }
