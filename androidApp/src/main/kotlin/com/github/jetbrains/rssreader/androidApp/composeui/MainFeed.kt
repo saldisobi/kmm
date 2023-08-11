@@ -21,6 +21,8 @@ fun MainFeed(
     store: FeedStore,
     onPostClick: (Post) -> Unit,
     onEditClick: () -> Unit,
+    onDiscoverClick: () -> Unit,
+    omMoreClick: () -> Unit
 ) {
     val state = store.observeState().collectAsState()
     val posts = remember(state.value.feeds, state.value.selectedFeed) {
@@ -42,7 +44,9 @@ fun MainFeed(
                 coroutineScope.launch { listState.scrollToItem(0) }
                 store.dispatch(FeedAction.SelectFeed(feed))
             },
-            onEditClick = onEditClick
+            onEditClick = onEditClick,
+            onDiscoverClick = onDiscoverClick,
+            onMoreClick = omMoreClick
         )
         Spacer(
             Modifier
@@ -53,9 +57,10 @@ fun MainFeed(
 }
 
 private sealed class Icons {
-    object All : Icons()
-    class FeedIcon(val feed: Feed) : Icons()
-    object Edit : Icons()
+    object Home : Icons()
+    object Feed: Icons()
+    object Discover : Icons()
+    object More : Icons()
 }
 
 @Composable
@@ -63,12 +68,15 @@ fun MainFeedBottomBar(
     feeds: List<Feed>,
     selectedFeed: Feed?,
     onFeedClick: (Feed?) -> Unit,
-    onEditClick: () -> Unit
+    onEditClick: () -> Unit,
+    onMoreClick: () -> Unit,
+    onDiscoverClick: () -> Unit
 ) {
     val items = buildList {
-        add(Icons.All)
-        addAll(feeds.map { Icons.FeedIcon(it) })
-        add(Icons.Edit)
+        add(Icons.Home)
+        add(Icons.Feed)
+        add(Icons.Discover)
+        add(Icons.More)
     }
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
@@ -76,17 +84,14 @@ fun MainFeedBottomBar(
     ) {
         this.items(items) { item ->
             when (item) {
-                is Icons.All -> FeedIcon(
-                    feed = null,
-                    isSelected = selectedFeed == null,
+                is Icons.Home -> HomeIcon(
                     onClick = { onFeedClick(null) }
                 )
-                is Icons.FeedIcon -> FeedIcon(
-                    feed = item.feed,
-                    isSelected = selectedFeed == item.feed,
-                    onClick = { onFeedClick(item.feed) }
+                is Icons.Feed -> FeedIconBottom(
+                    onClick = { onFeedClick(null) }
                 )
-                is Icons.Edit -> EditIcon(onClick = onEditClick)
+                is Icons.Discover -> DiscoverIcon(onClick = onDiscoverClick)
+                is Icons.More -> MoreIcon(onClick = onMoreClick)
             }
             Spacer(modifier = Modifier.size(16.dp))
         }

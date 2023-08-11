@@ -24,13 +24,14 @@ import com.github.jetbrains.rssreader.androidApp.R
 import com.github.jetbrains.rssreader.core.entity.Feed
 import java.util.*
 
+
 @Composable
 fun FeedIcon(
     feed: Feed?,
     isSelected: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
-    val txtAll = stringResource(R.string.all)
+    val txtAll = stringResource(R.string.events)
     val shortName = remember(feed) { feed?.shortName() ?: txtAll }
     Box(
         modifier = Modifier
@@ -64,6 +65,7 @@ fun FeedIcon(
     }
 }
 
+
 private fun Feed.shortName(): String =
     title
         .replace(" ", "")
@@ -83,6 +85,82 @@ fun EditIcon(
     ) {
         Image(
             imageVector = ImageVector.vectorResource(R.drawable.ic_edit),
+            modifier = Modifier.align(Alignment.Center),
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+fun HomeIcon(
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(48.dp)
+            .clip(CircleShape)
+            .background(color = MaterialTheme.colors.background)
+            .clickable(onClick = onClick)
+    ) {
+        Image(
+            imageVector = ImageVector.vectorResource(R.drawable.home_icon),
+            modifier = Modifier.align(Alignment.Center),
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+fun FeedIconBottom(
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(48.dp)
+            .clip(CircleShape)
+            .background(color = MaterialTheme.colors.background)
+            .clickable(onClick = onClick)
+    ) {
+        Image(
+            imageVector = ImageVector.vectorResource(R.drawable.feed_icon),
+            modifier = Modifier.align(Alignment.Center),
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+fun MoreIcon(
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(48.dp)
+            .clip(CircleShape)
+            .background(color = MaterialTheme.colors.background)
+            .clickable(onClick = onClick)
+    ) {
+        Image(
+            imageVector = ImageVector.vectorResource(R.drawable.more),
+            modifier = Modifier.align(Alignment.Center),
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+fun DiscoverIcon(
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(48.dp)
+            .clip(CircleShape)
+            .background(color = MaterialTheme.colors.background)
+            .clickable(onClick = onClick)
+    ) {
+        Image(
+            imageVector = ImageVector.vectorResource(R.drawable.discover),
             modifier = Modifier.align(Alignment.Center),
             contentDescription = null
         )
